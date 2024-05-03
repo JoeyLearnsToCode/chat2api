@@ -22,6 +22,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get(f"/{api_prefix}/v1/models" if api_prefix else "/v1/models")
+async def models(request: Request):
+    # 返回一个固定的 json
+
+    return JSONResponse({
+        "object": "list",
+        "data": [
+            {
+                "id": "gpt-3.5-turbo",
+                "object": "model",
+                "created": 1693721698,
+                "owned_by": "openai",
+                "active": True,
+                "context_window": 4096
+            }
+        ]
+    }, media_type="application/json")
 
 async def to_send_conversation(request_data, access_token):
     chat_service = ChatService(request_data, access_token)
